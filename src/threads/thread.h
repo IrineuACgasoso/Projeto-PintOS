@@ -87,6 +87,9 @@ struct thread
     enum thread_status status;          /* Thread state. */
     char name[16];                      /* Name (for debugging purposes). */
     uint8_t *stack;                     /* Saved stack pointer. */
+    int64_t wakeup_tick;                /* Tick em que a thread deve acordar. */
+    int nice;                           /* Nice (MLFQS). */
+    int recent_cpu;                     /* CPU recente, ponto fixo (MLFQS). */
     int priority;                       /* Priority. */
     struct list_elem allelem;           /* List element for all threads list. */
 
@@ -122,6 +125,7 @@ void thread_unblock (struct thread *);
 struct thread *thread_current (void);
 tid_t thread_tid (void);
 const char *thread_name (void);
+void thread_preempt (void);   
 
 void thread_exit (void) NO_RETURN;
 void thread_yield (void);
